@@ -1,0 +1,15 @@
+const adminMiddleware = (req, res, next) => {
+  // Ensure authMiddleware ran first and attached the user object
+  if (!req.user) {
+    return res.status(401).json({ message: "Unauthorized: User not authenticated" });
+  }
+
+  // Check if the user's role is 'admin'
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ message: "Forbidden: Admin access required" });
+  }
+
+  next();
+};
+
+module.exports = adminMiddleware;
